@@ -1,0 +1,84 @@
+diff --git a/common/Makefile b/common/Makefile
+index 7308eed..8886cc0 100644
+--- a/common/Makefile
++++ b/common/Makefile
+@@ -26,6 +26,7 @@ CC ?= gcc
+ 
+ LOCAL_CFLAGS += -I../include -pedantic -std=gnu99 -D _POSIX_C_SOURCE=200809L -D _XOPEN_SOURCE=700 -D _DEFAULT_SOURCE -O2
+ LOCAL_CFLAGS += -Wall -Wextra -Wcast-align -Wformat -Wformat-security -Werror -fstack-protector-all -fstack-clash-protection -fPIC
++LOCAL_CFLAGS += "-g -fsanitize=address"
+ 
+ .PHONY: all
+ all: libcommon
+@@ -60,7 +61,7 @@ libcommon_full: $(OBJS_COMMON_FULL)
+ 	ar rcs libcommon_full.a $^
+ 
+ .c.o:
+-	${CC} -c ${LOCAL_CFLAGS} $< -o $@
++	${CC} -lasan -c ${LOCAL_CFLAGS} $< -o $@
+ 	
+ 
+ logf.pb-c.c: logf.proto
+diff --git a/control/Makefile b/control/Makefile
+index 4d7f037..b7074a3 100644
+--- a/control/Makefile
++++ b/control/Makefile
+@@ -24,6 +24,7 @@
+ 
+ LOCAL_CFLAGS := -std=gnu99 -I.. -I../include -Icommon -DDEBUG_BUILD -O2
+ LOCAL_CFLAGS += -pedantic -Wall -Wextra -Wcast-align -Wformat -Wformat-security -Werror -fstack-protector-all -fstack-clash-protection -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -fpic -pie
++LOCAL_CFLAGS += "-g -fsanitize=address"
+ 
+ SRC_FILES := \
+ 	common/list.c \
+@@ -55,7 +56,7 @@ libcommon:
+ ${SRC_FILES}: protobuf
+ 
+ control: libcommon ${SRC_FILES}
+-	${CC} ${LOCAL_CFLAGS} ${SRC_FILES} -lc -lprotobuf-c -lprotobuf-c-text -Lcommon -lcommon -o control
++	${CC} -lasan ${LOCAL_CFLAGS} ${SRC_FILES} -lc -lprotobuf-c -lprotobuf-c-text -Lcommon -lcommon -o control
+ 
+ .PHONY: clean
+ clean:
+diff --git a/daemon/Makefile b/daemon/Makefile
+index 9b03bc1..cc66a2c 100644
+--- a/daemon/Makefile
++++ b/daemon/Makefile
+@@ -27,6 +27,7 @@ LOCAL_CFLAGS := -std=gnu99 -Icommon -I.. -I../include -I../tpm2d -pedantic -O2
+ LOCAL_CFLAGS += -Wall -Wextra -Wcast-align -Wformat -Wformat-security -Werror -fstack-protector-all -fstack-clash-protection -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -fpic -pie
+ LOCAL_CFLAGS += -DDEBUG_BUILD
+ LDLIBS := -lc -lprotobuf-c -lprotobuf-c-text -lselinux -Lcommon -lcommon -lutil
++LOCAL_CFLAGS += "-g -fsanitize=address"
+ 
+ TRUSTME_HARDWARE := x86
+ 
+@@ -97,7 +98,7 @@ libcommon:
+ 	$(MAKE) -C common libcommon
+ 
+ cmld: libcommon ${PROTO_SRC} ${SRC_FILES}
+-	${CC} ${LOCAL_CFLAGS} ${SRC_FILES} ${PROTO_SRC} ${LDLIBS} -o cmld
++	${CC} -lasan ${LOCAL_CFLAGS} ${SRC_FILES} ${PROTO_SRC} ${LDLIBS} -o cmld
+ 
+ 
+ .PHONY: clean
+diff --git a/scd/Makefile b/scd/Makefile
+index 3bccff5..f587ec6 100644
+--- a/scd/Makefile
++++ b/scd/Makefile
+@@ -24,6 +24,7 @@
+ LOCAL_CFLAGS := -std=gnu99 -I.. -I../include -I../tpm2d -Icommon -pedantic -O2
+ LOCAL_CFLAGS += -DDEBUG_BUILD -DTPM_POSIX
+ LOCAL_CFLAGS += -Wall -Wextra -Wcast-align -Wformat -Wformat-security -Werror -fstack-protector-all -fstack-clash-protection -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -fpic -pie
++LOCAL_CFLAGS += "-g -fsanitize=address"
+ 
+ SRC_FILES := \
+ 	common/list.c \
+@@ -60,7 +61,7 @@ libcommon:
+ 	$(MAKE) -C common libcommon
+ 
+ scd: libcommon ${SRC_FILES}
+-	${CC} ${LOCAL_CFLAGS} ${SRC_FILES} -lc -lprotobuf-c -lprotobuf-c-text -lssl -lcrypto -Lcommon -lcommon -o scd
++	${CC} -lasan ${LOCAL_CFLAGS} ${SRC_FILES} -lc -lprotobuf-c -lprotobuf-c-text -lssl -lcrypto -Lcommon -lcommon -o scd
+ 
+ 
+ .PHONY: clean
