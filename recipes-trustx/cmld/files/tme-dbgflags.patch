@@ -1,12 +1,12 @@
 diff --git a/common/Makefile b/common/Makefile
-index 7308eed..8886cc0 100644
+index 7308eed..e6a736e 100644
 --- a/common/Makefile
 +++ b/common/Makefile
 @@ -26,6 +26,7 @@ CC ?= gcc
  
  LOCAL_CFLAGS += -I../include -pedantic -std=gnu99 -D _POSIX_C_SOURCE=200809L -D _XOPEN_SOURCE=700 -D _DEFAULT_SOURCE -O2
  LOCAL_CFLAGS += -Wall -Wextra -Wcast-align -Wformat -Wformat-security -Werror -fstack-protector-all -fstack-clash-protection -fPIC
-+LOCAL_CFLAGS += "-g -fsanitize=address"
++LOCAL_CFLAGS += -g -fsanitize=address
  
  .PHONY: all
  all: libcommon
@@ -20,14 +20,14 @@ index 7308eed..8886cc0 100644
  
  logf.pb-c.c: logf.proto
 diff --git a/control/Makefile b/control/Makefile
-index 4d7f037..b7074a3 100644
+index 4d7f037..9109018 100644
 --- a/control/Makefile
 +++ b/control/Makefile
 @@ -24,6 +24,7 @@
  
  LOCAL_CFLAGS := -std=gnu99 -I.. -I../include -Icommon -DDEBUG_BUILD -O2
  LOCAL_CFLAGS += -pedantic -Wall -Wextra -Wcast-align -Wformat -Wformat-security -Werror -fstack-protector-all -fstack-clash-protection -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -fpic -pie
-+LOCAL_CFLAGS += "-g -fsanitize=address"
++LOCAL_CFLAGS += -g -fsanitize=address
  
  SRC_FILES := \
  	common/list.c \
@@ -41,14 +41,14 @@ index 4d7f037..b7074a3 100644
  .PHONY: clean
  clean:
 diff --git a/daemon/Makefile b/daemon/Makefile
-index 9b03bc1..cc66a2c 100644
+index 9b03bc1..e659ba4 100644
 --- a/daemon/Makefile
 +++ b/daemon/Makefile
 @@ -27,6 +27,7 @@ LOCAL_CFLAGS := -std=gnu99 -Icommon -I.. -I../include -I../tpm2d -pedantic -O2
  LOCAL_CFLAGS += -Wall -Wextra -Wcast-align -Wformat -Wformat-security -Werror -fstack-protector-all -fstack-clash-protection -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -fpic -pie
  LOCAL_CFLAGS += -DDEBUG_BUILD
  LDLIBS := -lc -lprotobuf-c -lprotobuf-c-text -lselinux -Lcommon -lcommon -lutil
-+LOCAL_CFLAGS += "-g -fsanitize=address"
++LOCAL_CFLAGS += -g -fsanitize=address
  
  TRUSTME_HARDWARE := x86
  
@@ -61,15 +61,36 @@ index 9b03bc1..cc66a2c 100644
  
  
  .PHONY: clean
+diff --git a/rattestation/Makefile b/rattestation/Makefile
+index 495c1a2..4955f25 100644
+--- a/rattestation/Makefile
++++ b/rattestation/Makefile
+@@ -27,6 +27,7 @@ CC ?= gcc
+ LOCAL_CFLAGS := -std=gnu99 -Icommon -I.. -I../include -pedantic -O2
+ LOCAL_CFLAGS += -DDEBUG_BUILD
+ LOCAL_CFLAGS += -Wall -Wextra -Wcast-align -Wformat -Wformat-security -Werror -fstack-protector-all -fstack-clash-protection -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -fpic -pie
++LOCAL_CFLAGS += -g -fsanitize=address
+ 
+ PROTO_SRC := \
+ 	attestation.pb-c.c
+@@ -52,7 +53,7 @@ libcommon:
+ 	$(MAKE) -C common libcommon
+ 
+ rattestation: libcommon ${SRC_FILES} ${PROTO_SRC}
+-	${CC} -static ${LOCAL_CFLAGS} ${SRC_FILES} ${PROTO_SRC} -lprotobuf-c -lprotobuf-c-text -Lcommon -lcommon -o $@
++	${CC} -lasan ${LOCAL_CFLAGS} ${SRC_FILES} ${PROTO_SRC} -lprotobuf-c -lprotobuf-c-text -Lcommon -lcommon -o $@
+ 
+ 
+ .PHONY: clean
 diff --git a/scd/Makefile b/scd/Makefile
-index 3bccff5..f587ec6 100644
+index 3bccff5..6a1cb48 100644
 --- a/scd/Makefile
 +++ b/scd/Makefile
 @@ -24,6 +24,7 @@
  LOCAL_CFLAGS := -std=gnu99 -I.. -I../include -I../tpm2d -Icommon -pedantic -O2
  LOCAL_CFLAGS += -DDEBUG_BUILD -DTPM_POSIX
  LOCAL_CFLAGS += -Wall -Wextra -Wcast-align -Wformat -Wformat-security -Werror -fstack-protector-all -fstack-clash-protection -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -fpic -pie
-+LOCAL_CFLAGS += "-g -fsanitize=address"
++LOCAL_CFLAGS += -g -fsanitize=address
  
  SRC_FILES := \
  	common/list.c \
@@ -82,3 +103,45 @@ index 3bccff5..f587ec6 100644
  
  
  .PHONY: clean
+diff --git a/tpm2_control/Makefile b/tpm2_control/Makefile
+index 674e5f0..e56fab9 100644
+--- a/tpm2_control/Makefile
++++ b/tpm2_control/Makefile
+@@ -25,6 +25,7 @@
+ LOCAL_CFLAGS := -std=gnu99 -I.. -I../include -I../tpm2d -Icommon -pedantic -O2
+ LOCAL_CFLAGS += -Wall -Wextra -Wcast-align -Wformat -Wformat-security -Werror -fstack-protector-all -fstack-clash-protection -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -fpic -pie
+ LOCAL_CFLAGS += -DDEBUG_BUILD
++LOCAL_CFLAGS += -g -fsanitize=address
+ 
+ SRC_FILES := \
+ 	common/protobuf.c \
+@@ -50,7 +51,7 @@ libcommon:
+ ${SRC_FILES}: protobuf
+ 
+ tpm2_control: libcommon ${SRC_FILES}
+-	${CC} ${LOCAL_CFLAGS} ${SRC_FILES} -lc -lprotobuf-c -lprotobuf-c-text -Lcommon -lcommon -o tpm2_control
++	${CC} -lasan ${LOCAL_CFLAGS} ${SRC_FILES} -lc -lprotobuf-c -lprotobuf-c-text -Lcommon -lcommon -o tpm2_control
+ 
+ .PHONY: clean
+ clean:
+diff --git a/tpm2d/Makefile b/tpm2d/Makefile
+index 791d28b..19f3c72 100644
+--- a/tpm2d/Makefile
++++ b/tpm2d/Makefile
+@@ -28,6 +28,7 @@ tss_cflags := \
+ LOCAL_CFLAGS := -std=gnu99 -I. -I.. -I../include -Icommon $(tss_cflags) -O2
+ LOCAL_CFLAGS += -Wextra -Wcast-align -Wformat -Wformat-security -Werror -fstack-protector-all -fstack-clash-protection -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -fpic -pie
+ #LOCAL_CFLAGS += -DTPM2D_NVMCRYPT_ONLY
++LOCAL_CFLAGS += -g -fsanitize=address
+ 
+ SRC_FILES := \
+ 	common/dir.c \
+@@ -61,7 +62,7 @@ libcommon:
+ 	$(MAKE) -C common libcommon
+ 
+ tpm2d: libcommon $(SRC_FILES)
+-	$(CC) $(LOCAL_CFLAGS) $(SRC_FILES) -lc -lprotobuf-c -lprotobuf-c-text -libmtss -lcrypto -Lcommon -lcommon -o tpm2d
++	$(CC) -lasan $(LOCAL_CFLAGS) $(SRC_FILES) -lc -lprotobuf-c -lprotobuf-c-text -libmtss -lcrypto -Lcommon -lcommon -o tpm2d
+ 
+ .PHONY: clean
+ clean:
