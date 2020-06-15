@@ -4,18 +4,23 @@ echo "[initramfs] Mounting /data 9pfs"
 mount -t 9p -o trans=virtio,version=9p2000.L extdata /mnt
 sleep 2
 
-mkdir -p /data/cmld
+mkdir -p /data/extcmld
 echo "[initramfs] Mounting /data/cmld 9pfs"
-mount -t 9p -o trans=virtio,version=9p2000.L extcmld /data/cmld
+mount -t 9p -o trans=virtio,version=9p2000.L extcmld /data/extcmld
 
 echo "[initramfs] Mounting /data 9pfs"
 mount -t tmpfs tmpfs /data/logs
 
-if [ -f /data/cml/cmld ];then
-    cp -f /data/cmld/cmld /usr/sbin/cmld
+if [ -f /data/extcmld/cmld ];then
+    cp -f /data/extcmld/cmld /usr/sbin/cmld
     echo "[initramfs] Copied new cmld to /usr/sbin"
-    cp -f /data/cmld/control /usr/sbin/control
+fi
+if [ -f /data/extcmld/control ];then
+    cp -f /data/extcmld/control /usr/sbin/control
     echo "[initramfs] Copied new cmld to /usr/sbin"
-    sleep 1
+fi
+if [ -f /data/extcmld/scd ];then
+    cp -f /data/extcmld/scd /usr/sbin/scd
+    echo "[initramfs] Copied new scd to /usr/sbin"
 fi
 ####################################
