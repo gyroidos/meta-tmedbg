@@ -6,7 +6,7 @@ index 7308eed..e6a736e 100644
  
  LOCAL_CFLAGS += -I../include -pedantic -std=gnu99 -D _POSIX_C_SOURCE=200809L -D _XOPEN_SOURCE=700 -D _DEFAULT_SOURCE -O2
  LOCAL_CFLAGS += -Wall -Wextra -Wcast-align -Wformat -Wformat-security -Werror -fstack-protector-all -fstack-clash-protection -fPIC
-+LOCAL_CFLAGS += -g -fsanitize=address
++LOCAL_CFLAGS += -g -fsanitize=address -fsanitize-recover=address
  
  .PHONY: all
  all: libcommon
@@ -27,7 +27,7 @@ index 4d7f037..9109018 100644
  
  LOCAL_CFLAGS := -std=gnu99 -I.. -I../include -Icommon -DDEBUG_BUILD -O2
  LOCAL_CFLAGS += -pedantic -Wall -Wextra -Wcast-align -Wformat -Wformat-security -Werror -fstack-protector-all -fstack-clash-protection -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -fpic -pie
-+LOCAL_CFLAGS += -g -fsanitize=address
++LOCAL_CFLAGS += -g -fsanitize=address -fsanitize-recover=address
  
  SRC_FILES := \
  	common/list.c \
@@ -48,7 +48,7 @@ index 9b03bc1..e659ba4 100644
  LOCAL_CFLAGS += -Wall -Wextra -Wcast-align -Wformat -Wformat-security -Werror -fstack-protector-all -fstack-clash-protection -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -fpic -pie
  LOCAL_CFLAGS += -DDEBUG_BUILD
  LDLIBS := -lc -lprotobuf-c -lprotobuf-c-text -lselinux -Lcommon -lcommon -lutil
-+LOCAL_CFLAGS += -g -fsanitize=address
++LOCAL_CFLAGS += -g -fsanitize=address -fsanitize-recover=address
  
  TRUSTME_HARDWARE := x86
  
@@ -69,7 +69,7 @@ index 495c1a2..4955f25 100644
  LOCAL_CFLAGS := -std=gnu99 -Icommon -I.. -I../include -pedantic -O2
  LOCAL_CFLAGS += -DDEBUG_BUILD
  LOCAL_CFLAGS += -Wall -Wextra -Wcast-align -Wformat -Wformat-security -Werror -fstack-protector-all -fstack-clash-protection -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -fpic -pie
-+LOCAL_CFLAGS += -g -fsanitize=address
++LOCAL_CFLAGS += -g -fsanitize=address -fsanitize-recover=address
  
  PROTO_SRC := \
  	attestation.pb-c.c
@@ -90,7 +90,7 @@ index 3bccff5..6a1cb48 100644
  LOCAL_CFLAGS := -std=gnu99 -I.. -I../include -I../tpm2d -Icommon -pedantic -O2
  LOCAL_CFLAGS += -DDEBUG_BUILD -DTPM_POSIX
  LOCAL_CFLAGS += -Wall -Wextra -Wcast-align -Wformat -Wformat-security -Werror -fstack-protector-all -fstack-clash-protection -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -fpic -pie
-+LOCAL_CFLAGS += -g -fsanitize=address
++LOCAL_CFLAGS += -g -fsanitize=address -fsanitize-recover=address
  
  SRC_FILES := \
  	common/list.c \
@@ -111,7 +111,7 @@ index 674e5f0..e56fab9 100644
  LOCAL_CFLAGS := -std=gnu99 -I.. -I../include -I../tpm2d -Icommon -pedantic -O2
  LOCAL_CFLAGS += -Wall -Wextra -Wcast-align -Wformat -Wformat-security -Werror -fstack-protector-all -fstack-clash-protection -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -fpic -pie
  LOCAL_CFLAGS += -DDEBUG_BUILD
-+LOCAL_CFLAGS += -g -fsanitize=address
++LOCAL_CFLAGS += -g -fsanitize=address -fsanitize-recover=address
  
  SRC_FILES := \
  	common/protobuf.c \
@@ -132,7 +132,7 @@ index 791d28b..19f3c72 100644
  LOCAL_CFLAGS := -std=gnu99 -I. -I.. -I../include -Icommon $(tss_cflags) -O2
  LOCAL_CFLAGS += -Wextra -Wcast-align -Wformat -Wformat-security -Werror -fstack-protector-all -fstack-clash-protection -Wl,-z,noexecstack -Wl,-z,relro -Wl,-z,now -fpic -pie
  #LOCAL_CFLAGS += -DTPM2D_NVMCRYPT_ONLY
-+LOCAL_CFLAGS += -g -fsanitize=address
++LOCAL_CFLAGS += -g -fsanitize=address -fsanitize-recover=address
  
  SRC_FILES := \
  	common/dir.c \

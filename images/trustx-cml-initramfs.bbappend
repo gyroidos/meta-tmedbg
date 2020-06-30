@@ -9,4 +9,7 @@ PACKAGE_INSTALL += " \
 	perl-module-file-basename \
 	perl-module-file-glob \
 	tcpdump \
+	gcc-sanitizers \
+	util-linux \
+	binutils \
 "
