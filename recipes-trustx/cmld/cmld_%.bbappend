@@ -1,12 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-#SRC_URI_append = ""
-
-do_compile_prepend () {
-	export DEVELOPMENT_BUILD=y
-	export AGGRESSIVE_WARNINGS=y
-	export SANITIZERS=n
-}
+EXTRA_OEMAKE += " SANITIZERS=y AGGRESSIVE_WARNINGS=y DEVELOPMENT_BUILD=y"
 
 DEPENDS += " gcc-sanitizers "
 IMAGE_INSTALL_append += " gcc-sanitizers "
