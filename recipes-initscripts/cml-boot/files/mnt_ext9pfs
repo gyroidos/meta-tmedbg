@@ -17,10 +17,18 @@ if [ -f /data/extcmld/cmld ];then
 fi
 if [ -f /data/extcmld/control ];then
     cp -f /data/extcmld/control /usr/sbin/control
-    echo "[initramfs] Copied new cmld to /usr/sbin"
+    echo "[initramfs] Copied new control to /usr/sbin"
 fi
 if [ -f /data/extcmld/scd ];then
     cp -f /data/extcmld/scd /usr/sbin/scd
     echo "[initramfs] Copied new scd to /usr/sbin"
+fi
+if [ -f /data/extcmld/tpm2d ];then
+    cp -f /data/extcmld/tpm2d /usr/sbin/tpm2d
+    echo "[initramfs] Copied new tpm2d to /usr/sbin"
+fi
+if [ -f /data/extcmld/rattestation ];then
+    cp -f /data/extcmld/rattestation /usr/sbin/rattestation
+    echo "[initramfs] Copied new rattestation to /usr/sbin"
 fi
 ####################################
