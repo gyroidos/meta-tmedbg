@@ -30,6 +30,7 @@ fi
 if [ -f /data/extcmld/rattestation ];then
     cp -f /data/extcmld/rattestation /usr/sbin/rattestation
     echo "[initramfs] Copied new rattestation to /usr/sbin"
+fi
 if [ -f /data/extcmld/cml-service-container ];then
     cp -f /data/extcmld/cml-service-container /usr/sbin/cml-service-container
     echo "[initramfs] Copied new cservice to /sbin/cml-service-container"
