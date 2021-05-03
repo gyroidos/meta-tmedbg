@@ -6,7 +6,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:${THISDIR}/files:"
 do_install_append () {
 	bbwarn "Patching /init script to mount 9p file systems during early boot"
 
-	sed -i '\|if device.cert is not present, start scd to initialize device|e cat ${TOPDIR}/../meta-tmedbg/recipes-initscripts/cml-boot/files/mnt_ext9pfs' ${D}/init
+	sed -i '\|Starting Compartment Manager Daemon (cmld)|e cat ${TOPDIR}/../meta-tmedbg/recipes-initscripts/cml-boot/files/mnt_ext9pfs' ${D}/init
 	
 	bbwarn "Patching /init script to mount 9p file systems during boot"
 
