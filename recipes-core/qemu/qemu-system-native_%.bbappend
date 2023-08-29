@@ -1,1 +1,1 @@
-CFLAGS_append = " -O0 "
+CFLAGS:append = " -O0 "

@@ -7,8 +7,8 @@ fi
 
 (cd "$1" && bitbake-layers add-layer ../meta-tmedbg)
 
-for f in $1/conf/local.conf $1/conf/multiconfig/*.conf;do
+for f in $1/conf/local.conf $1/../meta-trustx/conf/multiconfig/*.conf;do
 	echo "Patching DISTRO in $f"
-	sed -i 's/DISTRO = "poky"/DISTRO = "cml-debug"/' $f
-	sed -i 's/DISTRO = "poky-tiny"/DISTRO = "cml-debug-tiny"/' $f
+	sed -i 's/DISTRO = "gyroidos-core"/DISTRO = "cml-debug"/' $f
+	sed -i 's/DISTRO = "gyroidos-cml"/DISTRO = "cml-debug-tiny"/' $f
 done
