@@ -4,9 +4,6 @@ mkdir -p /data/extcmld
 echo "[initramfs] Mounting /data/cmld 9pfs"
 mount -t 9p -o trans=virtio,version=9p2000.L extcmld /data/extcmld
 
-echo "[initramfs] Mounting /data 9pfs"
-mount -t tmpfs tmpfs /data/logs
-
 if [ -f /data/extcmld/cmld ];then
     cp -f /data/extcmld/cmld /usr/sbin/cmld
     echo "[initramfs] Copied new cmld to /usr/sbin"
