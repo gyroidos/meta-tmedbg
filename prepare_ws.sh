@@ -1,10 +1,12 @@
 #!/bin/bash
 
-BUILD_DIR="$1"
+set -e
 
-if [ -z "BUILD_DIR" ];then
-	echo "No build directory given, exiting..."
-	exit 1
+BUILD_DIR="$(readlink -m $1)"
+
+if ! [ -d "$BUILD_DIR" ];then
+    echo "Specified Build directory $BUILD_DIR does not exist, exiting..."
+    exit 1
 fi
 
 (cd "$1" && bitbake-layers add-layer $BUILD_DIR/../meta-tmedbg)
