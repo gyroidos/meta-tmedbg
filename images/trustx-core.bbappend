@@ -11,5 +11,4 @@ PACKAGE_INSTALL += " \
 	tcpdump \
 	gcc-sanitizers \
 	util-linux \
-	binutils \
 "
