@@ -11,8 +11,8 @@ fi
 
 (cd "$1" && bitbake-layers add-layer $BUILD_DIR/../meta-tmedbg)
 
-for f in  $BUILD_DIR/conf/local.conf $BUILD_DIR/../{meta-trustx,meta-trustx-intel}/conf/multiconfig/*.{conf,inc};do
+for f in  $BUILD_DIR/conf/local.conf $BUILD_DIR/../{meta-trustx,meta-trustx-intel,meta-trustx-nxp}/conf/multiconfig/*.{conf,inc};do
 	echo "Patching DISTRO in $f"
-	sed -i 's/DISTRO = "gyroidos-core"/DISTRO = "cml-debug"/' $f
-	sed -i 's/DISTRO = "gyroidos-cml"/DISTRO = "cml-debug-tiny"/' $f
+	sed -i 's/DISTRO = "gyroidos-core"/DISTRO = "cml-debug"/' $f || true
+	sed -i 's/DISTRO = "gyroidos-cml"/DISTRO = "cml-debug-tiny"/' $f || true
 done
