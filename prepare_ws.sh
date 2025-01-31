@@ -13,6 +13,6 @@ fi
 
 for f in  $BUILD_DIR/conf/local.conf $BUILD_DIR/../{meta-trustx,meta-trustx-intel,meta-trustx-nxp}/conf/multiconfig/*.{conf,inc};do
 	echo "Patching DISTRO in $f"
-	sed -i 's/DISTRO = "gyroidos-core"/DISTRO = "cml-debug"/' $f || true
-	sed -i 's/DISTRO = "gyroidos-cml"/DISTRO = "cml-debug-tiny"/' $f || true
+	sed -i 's/DISTRO = "core-ref"/DISTRO = "cml-debug"/' $f || true
+	sed -i 's/DISTRO = "cml-base"/DISTRO = "cml-debug-tiny"/' $f || true
 done
