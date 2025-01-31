@@ -1,5 +1,5 @@
-# meta-trustx
-This repository contains Yocto recipes to build trustx
+# meta-tmedbg
+This repository contains Yocto recipes to build the extended debug version of GyroidOS.
 
-to enabled it, execute the following command in your yocto workspace directory:
+To enabled it, execute the following command in your yocto workspace directory:
 sh meta-tmedbg/prepare_ws.sh out-yocto
