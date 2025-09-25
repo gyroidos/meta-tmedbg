@@ -1,0 +1,3 @@
+echo "Starting Compartment Manager Daemon (cmld)"
+LD_PRELOAD=libasan.so.5 cmld
+echo "${CML_START_MSG}" > /dev/console
