@@ -1,0 +1,1 @@
+export ASAN_OPTIONS=log_path=/data/logs/asan.log:halt_on_error=0
